@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-function SidebarLink({ Icon, text, active }) {
+function NavigatorLink({ Icon, text, active }) {
   const router = useRouter();
   return (
     <div
@@ -15,4 +15,4 @@ function SidebarLink({ Icon, text, active }) {
   );
 }
 
-export default SidebarLink;
+export default NavigatorLink;

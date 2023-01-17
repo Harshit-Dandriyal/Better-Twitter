@@ -10,11 +10,11 @@ import {
   DotsCircleHorizontalIcon,
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
-import SidebarLink from "./SidebarLink";
+import NavigatorTab from "./NavigatorTab";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
-function Sidebar() {
+function Navigator() {
   const { data: session } = useSession();
 
   return (
@@ -23,30 +23,30 @@ function Sidebar() {
         <Image src="https://rb.gy/ogau5a" width={30} height={30} />
       </div>
       <div className="space-y-2.5 mt-4 mb-2.5 xl:ml-24">
-        <SidebarLink text="Home" Icon={HomeIcon} active />
-        <SidebarLink text="Explore" Icon={HashtagIcon} />
-        <SidebarLink text="Notifications" Icon={BellIcon} />
-        <SidebarLink text="Messages" Icon={InboxIcon} />
-        <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
-        <SidebarLink text="Lists" Icon={ClipboardListIcon} />
-        <SidebarLink text="Profile" Icon={UserIcon} />
-        <SidebarLink text="More" Icon={DotsCircleHorizontalIcon} />
+        <NavigatorTab text="Home" Icon={HomeIcon} active />
+        <NavigatorTab text="Explore" Icon={HashtagIcon} />
+        <NavigatorTab text="Notifications" Icon={BellIcon} />
+        <NavigatorTab text="Messages" Icon={InboxIcon} />
+        <NavigatorTab text="Bookmarks" Icon={BookmarkIcon} />
+        <NavigatorTab text="Lists" Icon={ClipboardListIcon} />
+        <NavigatorTab text="Profile" Icon={UserIcon} />
+        <NavigatorTab text="More" Icon={DotsCircleHorizontalIcon} />
       </div>
-      <button className="hidden xl:inline ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
+      <button className="hidden xl:inline ml-auto bg-[#1d9bf0] text-white text-lg font-bold shadow-md hover:bg-[#1a8cd8] rounded-full w-56 h-[52px] ">
         Tweet
       </button>
       <div
-        className="text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation xl:ml-auto xl:-mr-5"
+        className="text-[#d9d9d9] hoverAnimation xl:ml-auto xl:-mr-5 flex items-center justify-center mt-auto "
         onClick={signOut}
       >
-        <img
+        {/* <img
           src={session.user.image}
           alt=""
           className="h-10 w-10 rounded-full xl:mr-2.5"
-        />
+        /> */}
         <div className="hidden xl:inline leading-5">
-          <h4 className="font-bold">{session.user.name}</h4>
-          <p className="text-[#6e767d]">@{session.user.tag}</p>
+          <h4 className="font-bold">gfdgfd</h4>
+          <p className="text-[#6e767d]">gfgfd</p>
         </div>
         <DotsHorizontalIcon className="h-5 hidden xl:inline ml-10" />
       </div>
@@ -54,4 +54,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default Navigator;

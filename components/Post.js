@@ -37,25 +37,25 @@ function Post({ id, post, postPage }) {
   const [liked, setLiked] = useState(false);
   const router = useRouter();
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(
-          collection(db, "posts", id, "comments"),
-          orderBy("timestamp", "desc")
-        ),
-        (snapshot) => setComments(snapshot.docs)
-      ),
-    [db, id]
-  );
+  // useEffect(
+  //   () =>
+  //     onSnapshot(
+  //       query(
+  //         collection(db, "posts", id, "comments"),
+  //         orderBy("timestamp", "desc")
+  //       ),
+  //       (snapshot) => setComments(snapshot.docs)
+  //     ),
+  //   [db, id]
+  // );
 
-  useEffect(
-    () =>
-      onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
-        setLikes(snapshot.docs)
-      ),
-    [db, id]
-  );
+  // useEffect(
+  //   () =>
+  //     onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
+  //       setLikes(snapshot.docs)
+  //     ),
+  //   [db, id]
+  // );
 
   useEffect(
     () =>
@@ -67,11 +67,11 @@ function Post({ id, post, postPage }) {
 
   const likePost = async () => {
     if (liked) {
-      await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
+      // await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
     } else {
-      await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
-        username: session.user.name,
-      });
+      // await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
+      //   username: session.user.name,
+      // });
     }
   };
 
@@ -156,8 +156,8 @@ function Post({ id, post, postPage }) {
             )}
           </div>
 
-          {session.user.uid === post?.id ? (
-            <div
+     
+            {/* <div
               className="flex items-center space-x-1 group"
               onClick={(e) => {
                 e.stopPropagation();
@@ -169,13 +169,13 @@ function Post({ id, post, postPage }) {
                 <TrashIcon className="h-5 group-hover:text-red-600" />
               </div>
             </div>
-          ) : (
+          ) : ( */}
             <div className="flex items-center space-x-1 group">
               <div className="icon group-hover:bg-green-500/10">
                 <SwitchHorizontalIcon className="h-5 group-hover:text-green-500" />
               </div>
             </div>
-          )}
+    
 
           <div
             className="flex items-center space-x-1 group"
