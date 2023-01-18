@@ -12,7 +12,7 @@ export default function Home({ trendingResults, followResults, providers }) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useRecoilState(modalState);
 
-  // if (!session) return <Login providers={providers} />;
+  if (!session) return <Login providers={providers} />;
 
   return (
     <div className="">
@@ -35,22 +35,22 @@ export default function Home({ trendingResults, followResults, providers }) {
   );
 }
 
-// export async function getServerSideProps(context) {
-//   const trendingResults = await fetch("https://jsonkeeper.com/b/NKEV").then(
-//     (res) => res.json()
-//   );
-//   const followResults = await fetch("https://jsonkeeper.com/b/WWMJ").then(
-//     (res) => res.json()
-//   );
-//   const providers = await getProviders();
-//   const session = await getSession(context);
+export async function getServerSideProps(context) {
+  const trendingResults = await fetch("https://www.jsonkeeper.com/b/GK5T").then(
+    (res) => res.json()
+  );
+  const followResults = await fetch("https://www.jsonkeeper.com/b/KZN3").then(
+    (res) => res.json()
+  );
+  const providers = await getProviders();
+  const session = await getSession(context);
 
-//   return {
-//     props: {
-//       trendingResults,
-//       followResults,
-//       providers,
-//       session,
-//     },
-//   };
-// }
+  return {
+    props: {
+      trendingResults,
+      followResults,
+      providers,
+      session,
+    },
+  };
+}

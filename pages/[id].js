@@ -18,6 +18,7 @@ import { db } from "../firebase";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Comment from "../components/Comment";
 import Head from "next/head";
+import Login from "../components/Login";
 
 function PostPage({ trendingResults, followResults, providers }) {
   const { data: session } = useSession();
@@ -47,7 +48,7 @@ function PostPage({ trendingResults, followResults, providers }) {
   //   [db, id]
   // );
 
-  // if (!session) return <Login providers={providers} />;
+  if (!session) return <Login providers={providers} />;
 
   return (
     <div>
