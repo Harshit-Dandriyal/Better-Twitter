@@ -21,7 +21,7 @@ import dynamic from "next/dynamic";
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { useRecoilState } from "recoil";
-import { editIdState, editState, editTweet, inputText, selectedImage } from "../atoms/modalAtom";
+import { editIdState, editState, inputText, selectedImage } from "../atoms/modalAtom";
 
 function MainInput() {
   const { data: session } = useSession();

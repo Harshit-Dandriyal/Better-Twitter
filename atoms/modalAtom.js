@@ -30,7 +30,3 @@ export const selectedImage = atom({
   default: null,
 });
 
-export const editTweet = atom({
-  key: "editTweet",
-  default: false,
-});

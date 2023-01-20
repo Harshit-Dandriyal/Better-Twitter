@@ -37,7 +37,7 @@ function Widgets({ trendingResults, followResults }) {
               src={result.userImg}
               width={50}
               height={50}
-              objectFit="cover"
+              style={{objectFit:"cover"}}
               className="rounded-full"
             />
             <div className="ml-4 leading-5 group">

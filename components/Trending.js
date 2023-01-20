@@ -24,7 +24,7 @@ function Trending({ result }) {
           src={result.img}
           width={70}
           height={70}
-          objectFit="cover"
+          style={{objectFit:"cover"}}
           className="rounded-2xl"
         />
       ) : (
