@@ -5,7 +5,7 @@ import {
   PhotographIcon,
   XIcon,
 } from "@heroicons/react/outline";
-import { useRef, useState,useEffect } from "react";
+import { useRef, useState } from "react";
 import { db, storage } from "../firebase";
 import {
   addDoc,
@@ -20,25 +20,19 @@ import dynamic from "next/dynamic";
 // const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
-import { useRecoilState } from "recoil";
-import { editIdState, editState, inputText, selectedImage } from "../atoms/modalAtom";
 
-function MainInput() {
+function Input() {
   const { data: session } = useSession();
-  const [input, setInput] = useRecoilState(inputText);
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedFile, setSelectedFile] =  useRecoilState(selectedImage);
+  const [selectedFile, setSelectedFile] = useState(null);
   const filePickerRef = useRef(null);
   const [showEmojis, setShowEmojis] = useState(false);
-  const [editId, setEditId] = useRecoilState(editIdState);
-  const [isEdit, setisEdit] = useRecoilState(editState);
-  const [cursor, setCursor] = useState(null);
-  const inputRef = useRef(null);
+
   const sendPost = async () => {
     if (loading) return;
     setLoading(true);
 
-if(!isEdit){
     const docRef = await addDoc(collection(db, "posts"), {
       id: session.user.uid,
       username: session.user.name,
@@ -46,8 +40,8 @@ if(!isEdit){
       tag: session.user.tag,
       text: input,
       timestamp: serverTimestamp(),
-      edited: false
     });
+
     const imageRef = ref(storage, `posts/${docRef.id}/image`);
 
     if (selectedFile) {
@@ -58,25 +52,6 @@ if(!isEdit){
         });
       });
     }
-  }else {
-    const docRef = doc(db, 'posts', editId);
-    const updatePost = await updateDoc(docRef, {
-      text: input,
-      timestamp: serverTimestamp(),
-      edited: true
-  });
-  const imageRef = ref(storage, `posts/${editId}/image`);
-  if (selectedFile) {
-    await uploadString(imageRef, selectedFile, "data_url").then(async () => {
-      const downloadURL = await getDownloadURL(imageRef);
-      await updateDoc(doc(db, "posts", docRef.id), {
-        image: downloadURL,
-      });
-    });
-  }
-  setisEdit(false)
-  }
- 
 
     setLoading(false);
     setInput("");
@@ -102,42 +77,33 @@ if(!isEdit){
     let emoji = String.fromCodePoint(...codesArray);
     setInput(input + emoji);
   };
-  const handleChange = (e) => {
-    setInput(e.target.value)
-    setCursor(e.target.selectionStart);
 
- };
- useEffect(() => {
-  const input = inputRef.current;
-  if (input) input.setSelectionRange(cursor, cursor);
-}, [inputRef, cursor, input]);
   return (
     <div
-      className={`border-b overflow-y-scroll scrollbar-hide p-3 flex space-x-3  border-gray-700  ${
+      className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll scrollbar-hide ${
         loading && "opacity-60"
       }`}
     >
-      {/* <img
+      <img
         src={session.user.image}
         alt=""
         className="h-11 w-11 rounded-full cursor-pointer"
         onClick={signOut}
-      /> */}
-      <div className="divide-gray-700 w-full divide-y ">
+      />
+      <div className="divide-y divide-gray-700 w-full">
         <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
           <textarea
-          ref={inputRef}
             value={input}
-            onChange={handleChange}
+            onChange={(e) => setInput(e.target.value)}
             placeholder="What's happening?"
             rows="2"
-            className="bg-transparent outline-none placeholder-gray-500 tracking-wide w-full min-h-[50px] text-[#d9d9d9] text-lg "
+            className="bg-transparent outline-none text-[#d9d9d9] text-lg placeholder-gray-500 tracking-wide w-full min-h-[50px]"
           />
 
           {selectedFile && (
             <div className="relative">
               <div
-                className="absolute w-8 h-8 bg-[#15181c] items-center justify-center top-1 left-1 cursor-pointer hover:bg-[#272c26] bg-opacity-75 rounded-full flex "
+                className="absolute w-8 h-8 bg-[#15181c] hover:bg-[#272c26] bg-opacity-75 rounded-full flex items-center justify-center top-1 left-1 cursor-pointer"
                 onClick={() => setSelectedFile(null)}
               >
                 <XIcon className="text-white h-5" />
@@ -197,7 +163,7 @@ if(!isEdit){
               disabled={!input && !selectedFile}
               onClick={sendPost}
             >
-             {isEdit? "Edit Tweet": "Tweet"}
+              Tweet
             </button>
           </div>
         )}
@@ -206,4 +172,4 @@ if(!isEdit){
   );
 }
 
-export default MainInput;
+export default Input;

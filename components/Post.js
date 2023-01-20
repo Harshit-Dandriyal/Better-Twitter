@@ -5,9 +5,7 @@ import {
   onSnapshot,
   orderBy,
   query,
-  serverTimestamp,
   setDoc,
-  updateDoc,
 } from "@firebase/firestore";
 import {
   ChartBarIcon,
@@ -21,36 +19,23 @@ import {
 import {
   HeartIcon as HeartIconFilled,
   ChatIcon as ChatIconFilled,
-  PencilAltIcon,
 } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useRecoilState } from "recoil";
-import { editIdState, editState, inputText, modalState, postIdState, selectedImage } from "../atoms/modalAtom";
+import { modalState, postIdState } from "../atoms/modalAtom";
 import { db } from "../firebase";
 
 function Post({ id, post, postPage }) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useRecoilState(modalState);
   const [postId, setPostId] = useRecoilState(postIdState);
-  const [editId, setEditId] = useRecoilState(editIdState);
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
-  const [isEdit, setisEdit] = useRecoilState(editState);
   const router = useRouter();
-  const [input, setInput] = useRecoilState(inputText);
-  const [selectedFile, setSelectedFile] =  useRecoilState(selectedImage);
-
-  const editTweetfunc  = (e,id) => {
-    e.stopPropagation();
-    setEditId(id)
-    setInput(post?.text)
-    setSelectedFile(post?.image)
-    setisEdit(true);        
-  }
 
   useEffect(
     () =>
@@ -64,13 +49,6 @@ function Post({ id, post, postPage }) {
     [db, id]
   );
 
-  // useEffect(
-  //   () =>
-  //     onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
-  //       setLikes(snapshot.docs)
-  //     ),
-  //   [db, id]
-  // );
   useEffect(
     () =>
       onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
@@ -78,6 +56,7 @@ function Post({ id, post, postPage }) {
       ),
     [db, id]
   );
+
   useEffect(
     () =>
       setLiked(
@@ -98,7 +77,7 @@ function Post({ id, post, postPage }) {
 
   return (
     <div
-      className={`p-3 flex cursor-pointer border-b border-gray-700 ${editId===id && isEdit && "opacity-50"}`}
+      className="p-3 flex cursor-pointer border-b border-gray-700"
       onClick={() => router.push(`/${id}`)}
     >
       {!postPage && (
@@ -137,8 +116,8 @@ function Post({ id, post, postPage }) {
               <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
             </span>
             {!postPage && (
-              <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5 ">
-                {post?.text} {post?.edited==true && <span className="text-[#939393] mt-0.5 text-xs">(edited)</span>}
+              <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5">
+                {post?.text}
               </p>
             )}
           </div>
@@ -229,21 +208,6 @@ function Post({ id, post, postPage }) {
           <div className="icon group">
             <ChartBarIcon className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
-          {session.user.uid === post?.id ? (
-          <div
-              className="flex items-center space-x-1 group"
-              onClick={(e) => {
-                editTweetfunc(e, id)
-           
-              }}
-            >
-          <div className="icon group">
-            <PencilAltIcon className="h-5 group-hover:text-[#1d9bf0]" />
-          </div>
-          </div>):(
-          <></>
-          )}
-         
         </div>
       </div>
     </div>
