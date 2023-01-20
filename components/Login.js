@@ -1,6 +1,5 @@
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import styles from './Login.module.scss'
 function Login({ providers }) {
   return (
     <div className="flex text-white flex-col items-center space-y-20 pt-48">
@@ -14,7 +13,7 @@ function Login({ providers }) {
       <div>
         {Object?.values(providers)?.map((provider) => (
           <div key={provider.name}>
-<div className={styles.textEffect}>
+<div >
   <span>T</span>
   <span>w</span>
   <span>i</span>
