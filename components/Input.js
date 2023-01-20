@@ -5,7 +5,7 @@ import {
   PhotographIcon,
   XIcon,
 } from "@heroicons/react/outline";
-import { useRef, useState } from "react";
+import { useRef, useState,useEffect } from "react";
 import { db, storage } from "../firebase";
 import {
   addDoc,
@@ -32,7 +32,8 @@ function MainInput() {
   const [showEmojis, setShowEmojis] = useState(false);
   const [editId, setEditId] = useRecoilState(editIdState);
   const [isEdit, setisEdit] = useRecoilState(editState);
-
+  const [cursor, setCursor] = useState(null);
+  const inputRef = useRef(null);
   const sendPost = async () => {
     if (loading) return;
     setLoading(true);
@@ -101,7 +102,15 @@ if(!isEdit){
     let emoji = String.fromCodePoint(...codesArray);
     setInput(input + emoji);
   };
+  const handleChange = (e) => {
+    setInput(e.target.value)
+    setCursor(e.target.selectionStart);
 
+ };
+ useEffect(() => {
+  const input = inputRef.current;
+  if (input) input.setSelectionRange(cursor, cursor);
+}, [inputRef, cursor, input]);
   return (
     <div
       className={`border-b overflow-y-scroll scrollbar-hide p-3 flex space-x-3  border-gray-700  ${
@@ -117,8 +126,9 @@ if(!isEdit){
       <div className="divide-gray-700 w-full divide-y ">
         <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
           <textarea
+          ref={inputRef}
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={handleChange}
             placeholder="What's happening?"
             rows="2"
             className="bg-transparent outline-none placeholder-gray-500 tracking-wide w-full min-h-[50px] text-[#d9d9d9] text-lg "

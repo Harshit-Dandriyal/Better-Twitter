@@ -44,7 +44,7 @@ function Post({ id, post, postPage }) {
   const [input, setInput] = useRecoilState(inputText);
   const [selectedFile, setSelectedFile] =  useRecoilState(selectedImage);
 
-  const editTweetfunc  = async (e,id) => {
+  const editTweetfunc  = (e,id) => {
     e.stopPropagation();
     setEditId(id)
     setInput(post?.text)

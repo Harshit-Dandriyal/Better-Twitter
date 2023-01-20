@@ -17,8 +17,9 @@ export default function Home({ trendingResults, followResults, providers }) {
   return (
     <div className="">
       <Head>
-        <title>Twitter</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Home / Twitter</title>
+        <link rel = "icon" href = "https://rb.gy/brzhpg"
+        type = "image/x-icon"/>
       </Head>
 
       <main className="flex max-w-[1500px] mx-auto bg-black min-h-screen ">
@@ -37,10 +38,10 @@ export default function Home({ trendingResults, followResults, providers }) {
 }
 
 export async function getServerSideProps(context) {
-  const trendingResults = await fetch("https://www.jsonkeeper.com/b/GK5T").then(
+  const trendingResults = await fetch("https://www.jsonkeeper.com/b/E1UD").then(
     (res) => res.json()
   );
-  const followResults = await fetch("https://www.jsonkeeper.com/b/KZN3").then(
+  const followResults = await fetch("https://www.jsonkeeper.com/b/ZLFC").then(
     (res) => res.json()
   );
   const providers = await getProviders();
