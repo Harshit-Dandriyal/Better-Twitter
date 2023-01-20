@@ -20,19 +20,24 @@ import dynamic from "next/dynamic";
 // const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
+import { useRecoilState } from "recoil";
+import { editIdState, editState, editTweet, inputText, selectedImage } from "../atoms/modalAtom";
 
 function MainInput() {
   const { data: session } = useSession();
-  const [input, setInput] = useState("");
+  const [input, setInput] = useRecoilState(inputText);
   const [loading, setLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] =  useRecoilState(selectedImage);
   const filePickerRef = useRef(null);
   const [showEmojis, setShowEmojis] = useState(false);
+  const [editId, setEditId] = useRecoilState(editIdState);
+  const [isEdit, setisEdit] = useRecoilState(editState);
 
   const sendPost = async () => {
     if (loading) return;
     setLoading(true);
 
+if(!isEdit){
     const docRef = await addDoc(collection(db, "posts"), {
       id: session.user.uid,
       username: session.user.name,
@@ -40,8 +45,8 @@ function MainInput() {
       tag: session.user.tag,
       text: input,
       timestamp: serverTimestamp(),
+      edited: false
     });
-
     const imageRef = ref(storage, `posts/${docRef.id}/image`);
 
     if (selectedFile) {
@@ -52,6 +57,25 @@ function MainInput() {
         });
       });
     }
+  }else {
+    const docRef = doc(db, 'posts', editId);
+    const updatePost = await updateDoc(docRef, {
+      text: input,
+      timestamp: serverTimestamp(),
+      edited: true
+  });
+  const imageRef = ref(storage, `posts/${editId}/image`);
+  if (selectedFile) {
+    await uploadString(imageRef, selectedFile, "data_url").then(async () => {
+      const downloadURL = await getDownloadURL(imageRef);
+      await updateDoc(doc(db, "posts", docRef.id), {
+        image: downloadURL,
+      });
+    });
+  }
+  setisEdit(false)
+  }
+ 
 
     setLoading(false);
     setInput("");
@@ -163,7 +187,7 @@ function MainInput() {
               disabled={!input && !selectedFile}
               onClick={sendPost}
             >
-              Tweet
+             {isEdit? "Edit Tweet": "Tweet"}
             </button>
           </div>
         )}

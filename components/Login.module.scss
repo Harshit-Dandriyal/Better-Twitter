@@ -1,0 +1,72 @@
+.textEffect {
+  border: 3px solid #fff;
+  border-radius: 12px;
+  display: flex;
+  height: 88%;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 60px;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  font-style: italic;
+  text-shadow: 0 1px 0 #2196f3, 0 2px 0 #2196f3, 0 3px 0 #2196f3,
+    0 4px 0 #2196f3, 0 5px 0 #2196f3, 0 6px 0 #2196f3, 0 7px 0 #2196f3,
+    0 8px 0 #2196f3, 0 9px 0 #2196f3, 0 10px 0 #2196f3, 0 11px 0 #2196f3,
+    0 12px 0 #2196f3, 0 13px 0 #2196f3, 0 14px 0 #2196f3, 0 15px 0 #2196f3,
+    0 25px 15px rgba(0, 0, 0, 0.7);
+}
+
+.textEffect span {
+  display: inline-block;
+  animation: animate 1.4s infinite;
+  padding: 0 5px;
+}
+
+$letters: 7; //Define number of letters in animation - including spaces
+$timing: 0.1s; //Delay between letters
+
+//Sets timing differntly for each letter
+@while $letters >0 {
+  .text-effect span:nth-child(#{$letters}) {
+    animation-delay: $timing * $letters;
+  }
+
+  $letters: $letters - 1;
+}
+
+@keyframes animate {
+
+  50%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  0% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(0, -40px);
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .text-effect {
+    font-size: 55px;
+  }
+}
+
+@media only screen and (max-width: 479px) {
+  .text-effect {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 359px) {
+  .text-effect {
+    font-size: 30px;
+  }
+}
