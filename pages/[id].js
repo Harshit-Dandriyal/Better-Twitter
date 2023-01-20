@@ -28,25 +28,25 @@ function PostPage({ trendingResults, followResults, providers }) {
   const router = useRouter();
   const { id } = router.query;
 
-  // useEffect(
-  //   () =>
-  //     onSnapshot(doc(db, "posts", id), (snapshot) => {
-  //       setPost(snapshot.data());
-  //     }),
-  //   [db]
-  // );
+  useEffect(
+    () =>
+      onSnapshot(doc(db, "posts", id), (snapshot) => {
+        setPost(snapshot.data());
+      }),
+    [db]
+  );
 
-  // useEffect(
-  //   () =>
-  //     onSnapshot(
-  //       query(
-  //         collection(db, "posts", id, "comments"),
-  //         orderBy("timestamp", "desc")
-  //       ),
-  //       (snapshot) => setComments(snapshot.docs)
-  //     ),
-  //   [db, id]
-  // );
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "posts", id, "comments"),
+          orderBy("timestamp", "desc")
+        ),
+        (snapshot) => setComments(snapshot.docs)
+      ),
+    [db, id]
+  );
 
   if (!session) return <Login providers={providers} />;
 
@@ -97,22 +97,22 @@ function PostPage({ trendingResults, followResults, providers }) {
 
 export default PostPage;
 
-// export async function getServerSideProps(context) {
-//   const trendingResults = await fetch("https://jsonkeeper.com/b/NKEV").then(
-//     (res) => res.json()
-//   );
-//   const followResults = await fetch("https://jsonkeeper.com/b/WWMJ").then(
-//     (res) => res.json()
-//   );
-//   const providers = await getProviders();
-//   const session = await getSession(context);
+export async function getServerSideProps(context) {
+  const trendingResults = await fetch("https://www.jsonkeeper.com/b/GK5T").then(
+    (res) => res.json()
+  );
+  const followResults = await fetch("https://www.jsonkeeper.com/b/KZN3").then(
+    (res) => res.json()
+  );
+  const providers = await getProviders();
+  const session = await getSession(context);
 
-//   return {
-//     props: {
-//       trendingResults,
-//       followResults,
-//       providers,
-//       session,
-//     },
-//   };
-// }
+  return {
+    props: {
+      trendingResults,
+      followResults,
+      providers,
+      session,
+    },
+  };
+}
