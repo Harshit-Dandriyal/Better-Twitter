@@ -1,5 +1,6 @@
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import styles from './Login.module.css'
 function Login({ providers }) {
   return (
     <div className="flex text-white flex-col items-center space-y-20 pt-48">
@@ -7,25 +8,12 @@ function Login({ providers }) {
         src="https://rb.gy/ogau5a"
         width={150}
         height={150}
-        objectFit="contain"
       />
 
       <div>
         {Object?.values(providers)?.map((provider) => (
           <div key={provider.name}>
-<div >
-  <span>T</span>
-  <span>w</span>
-  <span>i</span>
-  <span>t</span>
-  <span>t</span>
-  <span>e</span>
-  <span>r</span>
-  <span> </span>
-  <span>2</span>
-  <span>.</span>
-  <span>0</span>
-</div>
+   <div className={styles.text}>Twitter 2.0</div>
 <div className="flex justify-center mt-8">
             <button
               className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group"
