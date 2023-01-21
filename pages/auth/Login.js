@@ -1,18 +1,17 @@
+import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { getProviders, signIn } from "next-auth/react"
 
-export default function Login({ providers }) {
+function Login({ providers }) {
   return (
     <div className="flex flex-col items-center space-y-20 pt-48">
       <Image
         src="https://rb.gy/ogau5a"
         width={150}
         height={150}
-        objectFit="contain"
       />
 
       <div>
-        {providers && Object.values(providers).map((provider) => (
+        {Object.values(providers).map((provider) => (
           <div key={provider.name}>
             {/* https://devdojo.com/tailwindcss/buttons#_ */}
             <button
@@ -29,12 +28,6 @@ export default function Login({ providers }) {
       </div>
     </div>
   );
-  
 }
 
-export async function getServerSideProps(context) {
-    const providers = await getProviders()
-    return {
-      props: { providers },
-    }
-  }
+export default Login;
