@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-
+import { getToken } from "next-auth/jwt"
 export default NextAuth({
   // Configure one or more authentication providers
   providers: [
@@ -21,4 +21,6 @@ export default NextAuth({
       return session;
     },
   },
+  secret: process.env.SECRET,
+
 });
