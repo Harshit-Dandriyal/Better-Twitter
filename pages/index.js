@@ -12,7 +12,7 @@ export default function Home({ trendingResults, followResults, providers }) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useRecoilState(modalState);
 
-  if (!session) return <Login providers={providers} />;
+  if (!session) return <>{console.log("fds", providers)}<Login providers={providers} /></>;
 
   return (
     <div className="">
