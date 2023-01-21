@@ -12,7 +12,7 @@ function Login({ providers }) {
       />
 
       <div>
-        {providers && Object?.values(providers)?.map((provider) => (
+        {Object.values(providers).map((provider) => (
           <div key={provider.name}>
             {/* https://devdojo.com/tailwindcss/buttons#_ */}
             <button
