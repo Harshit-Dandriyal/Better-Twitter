@@ -3,10 +3,10 @@ import Feed from "../components/Feed";
 import Navigator from "../components/Navigator";
 import Widgets from "../components/Widgets";
 import { getProviders, getSession, useSession } from "next-auth/react";
-import Login from "../components/Login";
 import Modal from "../components/Modal";
 import { editmodalState, modalState } from "../atoms/modalAtom";
 import { useRecoilState } from "recoil";
+import Login from "./auth/Login";
 
 export default function Home({ trendingResults, followResults, providers }) {
   const { data: session } = useSession();
