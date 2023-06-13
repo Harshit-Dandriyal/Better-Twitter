@@ -17,7 +17,7 @@ export default function Home({ trendingResults, followResults, providers }) {
   return (
     <div className="">
       <Head>
-        <title>Home / Twitter</title>
+        <title>Home / New Twitter</title>
         <link rel = "icon" href = "https://rb.gy/brzhpg"
         type = "image/x-icon"/>
       </Head>
